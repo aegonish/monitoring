@@ -1,0 +1,24 @@
+serviceAccount:
+  create: true
+
+config:
+  outputs: |
+    [OUTPUT]
+        Name            es
+        Match           kube.*
+        Host            <YOUR_LOCAL_IP>
+        Port            9200
+        Logstash_Format On
+        Retry_Limit     False
+        tls             Off
+  inputs: |
+    [INPUT]
+        Name             tail
+        Path             /var/log/containers/*.log
+        Parser           docker
+        Tag              kube.*
+    [FILTER]
+        Name             kubernetes
+        Match            kube.*
+        Merge_Log        On
+        Keep_Log         Off
