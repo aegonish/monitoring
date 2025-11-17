@@ -3,7 +3,7 @@ serviceAccount:
   name: fluent-bit
 
 backend:
-  type: null  # disable Helm’s built-in Elasticsearch output
+  type: null
 
 config:
   service: |
@@ -35,18 +35,30 @@ config:
 
   outputs: |
     [OUTPUT]
-        Name            es
-        Match           kube.*
-        Host            labs-certification-exhibits-maritime.trycloudflare.com
-        Port            443
-        Index           fluentbit
-        Logstash_Format Off
-        Generate_ID     On
-        Retry_Limit     False
-        HTTP_User       elastic
-        HTTP_Passwd     elastic123
-        tls             On
-        tls.verify      Off
+        Name                es
+        Match               kube.*
+        Host                enough-watts-geometry-educated.trycloudflare.com
+        Port                443
+        Index               fluentbit
+        Suppress_Type_Name  On
+        Logstash_Format     Off
+        Replace_Dots        On
+        Generate_ID         On
+        Retry_Limit         False
+        HTTP_User           elastic
+        HTTP_Passwd         elastic123
+        tls                 On
+        tls.verify          Off
+
+    [OUTPUT]
+        Name              loki
+        Match             kube.*
+        Uri               https://strings-councils-super-insurance.trycloudflare.com 
+        Labels            job=eks-logs
+        line_format       json
+        tls               On
+        tls.verify        Off
+
 
 parsers: |
   [PARSER]

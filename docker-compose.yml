@@ -29,12 +29,36 @@ services:
       - discovery.type=single-node
       - ELASTIC_PASSWORD=elastic123
       - xpack.security.enabled=true
-      - xpack.security.http.ssl.enabled=false   # <── disable TLS
+      - xpack.security.http.ssl.enabled=false
     ports:
       - "9200:9200"
       - "9300:9300"
     restart: unless-stopped
 
+  loki:
+    image: grafana/loki:2.9.0
+    container_name: loki
+    command: -config.file=/etc/loki/local-config.yaml
+    volumes:
+      - ./loki-config.yaml:/etc/loki/local-config.yaml
+      - ./loki-data:/loki
+    ports:
+      - "3100:3100"
+    restart: unless-stopped
+
+  tempo:
+    image: grafana/tempo:latest
+    container_name: tempo
+    command: [ "-config.file=/etc/tempo/tempo.yaml" ]
+    volumes:
+      - ./tempo-config.yaml:/etc/tempo/tempo.yaml
+      - ./tempo-data:/var/tempo
+    ports:
+      - "3200:3200"
+    restart: unless-stopped
+
 
 volumes:
   esdata:
+  loki-data:
+  tempo-data:
