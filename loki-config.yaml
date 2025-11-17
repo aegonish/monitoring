@@ -7,16 +7,14 @@ ingester:
   wal:
     enabled: true
     dir: /loki/wal
-
+  chunk_idle_period: 5m
+  chunk_retain_period: 30s
   lifecycler:
     address: 127.0.0.1
     ring:
       kvstore:
         store: inmemory
       replication_factor: 1
-
-  chunk_idle_period: 5m
-  chunk_retain_period: 30s
 
 schema_config:
   configs:
