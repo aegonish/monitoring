@@ -1,5 +1,16 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+
+namespace: monitoring-grafana
+
 resources:
   - namespace.yaml
   - values-configmap.yaml
+
+helmCharts:
+  - name: grafana
+    releaseName: grafana
+    namespace: monitoring-grafana
+    version: 8.5.12
+    repo: https://grafana.github.io/helm-charts
+    valuesFile: values-configmap.yaml
