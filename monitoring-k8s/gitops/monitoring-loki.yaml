@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: monitoring-loki
+  namespace: argocd
+spec:
+  project: monitoring
+  source:
+    repoURL: https://github.com/aegonish/monitoring.git
+    targetRevision: main
+    path: helm/loki
+    helm:
+      valueFiles:
+        - ../../values/loki-values.yaml
+  destination:
+    namespace: monitoring-loki
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

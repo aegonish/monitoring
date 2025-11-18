@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: tempo-values
-  namespace: monitoring-tempo
-data:
-  README: |
-    This file holds example values for the tempo component.
-    Replace these with your Helm values or kustomize patches as desired.

@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: grafana-values
-  namespace: monitoring-grafana
-data:
-  README: |
-    This file holds example values for the grafana component.
-    Replace these with your Helm values or kustomize patches as desired.
