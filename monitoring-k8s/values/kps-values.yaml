@@ -1,1 +1,68 @@
-<kps values>
+# monitoring-k8s/values/kps-values.yaml
+prometheus:
+  prometheusSpec:
+    replicas: 1
+    retention: 15d
+    resources:
+      requests:
+        cpu: 200m
+        memory: 1Gi
+      limits:
+        cpu: 1000m
+        memory: 4Gi
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: gp2
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 50Gi
+
+alertmanager:
+  enabled: true
+  alertmanagerSpec:
+    replicas: 1
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 1Gi
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: gp2
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 5Gi
+  config:
+    global: {}
+    route: { receiver: 'null' }
+    receivers:
+      - name: 'null'
+
+kubeStateMetrics:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+
+nodeExporter:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+
+prometheusOperator:
+  createCustomResource: true
+
+# If you want service type exposures:
+serviceMonitor:
+  default:
+    enabled: true

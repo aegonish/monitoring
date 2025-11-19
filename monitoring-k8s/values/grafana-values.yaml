@@ -1,1 +1,50 @@
-<grafana values>
+# monitoring-k8s/values/grafana-values.yaml
+replicaCount: 1
+
+image:
+  tag: 9.5.4
+
+service:
+  type: LoadBalancer      # change to ClusterIP if you prefer port-forward/ingress
+  port: 80
+
+ingress:
+  enabled: false
+
+persistence:
+  enabled: true
+  storageClassName: gp2
+  accessModes: ["ReadWriteOnce"]
+  size: 10Gi
+
+adminUser: admin
+adminPassword: changeme123   # CHANGE ASAP -> store in k8s secret in production
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 1Gi
+
+# Provision datasources for Prometheus & Loki to appear automatically in Grafana UI
+grafana:
+  grafana.ini:
+    security:
+      admin_user: admin
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: Prometheus
+          type: prometheus
+          url: http://monitoring-kube-prometheus-stack-prometheus.monitoring-kube-prometheus-stack.svc:9090
+          access: proxy
+          isDefault: true
+        - name: Loki
+          type: loki
+          url: http://monitoring-loki.monitoring-loki.svc:3100
+          access: proxy
+
+# dashboard provisioning via sidecar or configmap can be added later
