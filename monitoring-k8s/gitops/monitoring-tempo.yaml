@@ -11,7 +11,7 @@ spec:
     targetRevision: 1.8.3
     helm:
       valueFiles:
-        - ../../values/tempo-values.yaml
+        - ../values/tempo-values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring-tempo
