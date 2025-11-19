@@ -1,1 +1,21 @@
-# placeholder kps app
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: monitoring-kps
+  namespace: argocd
+spec:
+  project: monitoring
+  source:
+    repoURL: https://prometheus-community.github.io/helm-charts
+    chart: kube-prometheus-stack
+    targetRevision: 58.3.0
+    helm:
+      valueFiles:
+        - ../../values/kps-values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring-kube-prometheus-stack
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

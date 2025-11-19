@@ -1,1 +1,21 @@
-# placeholder loki app
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: monitoring-loki
+  namespace: argocd
+spec:
+  project: monitoring
+  source:
+    repoURL: https://grafana.github.io/helm-charts
+    chart: loki
+    targetRevision: 6.5.2
+    helm:
+      valueFiles:
+        - ../../values/loki-values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring-loki
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

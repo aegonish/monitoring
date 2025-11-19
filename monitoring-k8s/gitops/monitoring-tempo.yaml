@@ -1,1 +1,21 @@
-# placeholder tempo app
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: monitoring-tempo
+  namespace: argocd
+spec:
+  project: monitoring
+  source:
+    repoURL: https://grafana.github.io/helm-charts
+    chart: tempo
+    targetRevision: 1.8.3
+    helm:
+      valueFiles:
+        - ../../values/tempo-values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring-tempo
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

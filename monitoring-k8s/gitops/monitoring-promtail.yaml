@@ -1,1 +1,21 @@
-# placeholder promtail app
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: monitoring-promtail
+  namespace: argocd
+spec:
+  project: monitoring
+  source:
+    repoURL: https://grafana.github.io/helm-charts
+    chart: promtail
+    targetRevision: 6.15.2
+    helm:
+      valueFiles:
+        - ../../values/promtail-values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring-promtail
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
