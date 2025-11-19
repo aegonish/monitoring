@@ -1,4 +1,4 @@
-apiVersion: argoproj.io/v1alpha1
+﻿apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: monitoring-tempo
@@ -7,9 +7,8 @@ spec:
   project: monitoring
   source:
     repoURL: https://grafana.github.io/helm-charts
-    chart: tempo
-    targetRevision: 1.6.4
-    helm:
+    chart: tempo-distributed
+        helm:
       valueFiles:
         - values/tempo-values.yaml
   destination:
