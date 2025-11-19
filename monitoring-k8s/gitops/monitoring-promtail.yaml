@@ -10,8 +10,7 @@ spec:
     chart: promtail
     targetRevision: 6.15.2
     helm:
-      valueFiles:
-        - values/promtail-values.yaml
+      valueFiles:\n        - monitoring-k8s/values/promtail-values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring-promtail

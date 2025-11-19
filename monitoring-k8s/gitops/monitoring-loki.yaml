@@ -10,8 +10,7 @@ spec:
     chart: loki
     targetRevision: 6.5.2
     helm:
-      valueFiles:
-        - values/loki-values.yaml
+      valueFiles:\n        - monitoring-k8s/values/loki-values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring-loki

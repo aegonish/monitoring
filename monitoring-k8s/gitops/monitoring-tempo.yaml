@@ -9,8 +9,7 @@ spec:
     repoURL: https://grafana.github.io/helm-charts
     chart: tempo-distributed
     helm:
-      valueFiles:
-        - values/tempo-values.yaml
+      valueFiles:\n        - monitoring-k8s/values/tempo-values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring-tempo
