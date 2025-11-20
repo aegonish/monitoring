@@ -1,59 +1,29 @@
-loki:
-  auth_enabled: false
-
-  config: |
-    server:
-      http_listen_port: 3100
-
-    common:
-      path_prefix: /var/loki
-      ring:
-        instance_addr: 127.0.0.1
-        kvstore:
-          store: memberlist
-
-    ingester:
-      lifecycler:
-        ring:
-          kvstore:
-            store: memberlist
-      chunk_idle_period: 1h
-      chunk_block_size: 262144
-      chunk_retain_period: 30s
-
-    memberlist:
-      join_members:
-        - monitoring-loki-memberlist
-
-    schema_config:
-      configs:
-        - from: "2024-01-01"
-          store: boltdb-shipper
-          object_store: filesystem
-          schema: v13
-          index:
-            prefix: loki_index_
-            period: 24h
-
-    storage_config:
-      boltdb_shipper:
-        active_index_directory: /var/loki/index
-        cache_location: /var/loki/index_cache
-        shared_store: filesystem
-      filesystem:
-        directory: /var/loki/chunks
-
-    limits_config:
-      ingestion_rate_mb: 10
-      ingestion_burst_size_mb: 20
-
+# FORCE the chart to use simple single-binary mode
 singleBinary:
+  enabled: true
   replicas: 1
 
-persistence:
+loki:
   enabled: true
-  size: 10Gi
+  auth_enabled: false
+
+lokiStorage:
+  type: filesystem
+  filesystem:
+    chunks_directory: /var/loki/chunks
+    rules_directory: /var/loki/rules
 
 service:
   type: ClusterIP
   port: 3100
+
+# Disable all distributed components to avoid config merging
+backend:
+  enabled: false
+read:
+  enabled: false
+write:
+  enabled: false
+
+gateway:
+  enabled: false
