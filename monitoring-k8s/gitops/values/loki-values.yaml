@@ -7,7 +7,7 @@ singleBinary:
     storageClass: gp2
     size: 10Gi
 
-# All other config MUST be nested under loki:
+# === EVERYTHING ELSE MUST BE UNDER lokiiiiiiiiiiiiiiiiiiiiiiiii: ===
 loki:
   auth_enabled: false
 
@@ -31,7 +31,6 @@ loki:
           prefix: loki_index_
           period: 24h
 
-  # Disable ALL simple-scalable components
   backend:
     replicas: 0
 
