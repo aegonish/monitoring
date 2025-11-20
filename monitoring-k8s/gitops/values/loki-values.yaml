@@ -7,19 +7,19 @@ singleBinary:
     storageClass: gp2
     size: 10Gi
 
-# === REQUIRED FOR SIMPLE MODE ===
 loki:
   auth_enabled: false
 
-  # REQUIRED FOR CHART 6.x, even in filesystem mode
   storage:
     type: filesystem
+    filesystem:
+      chunks_directory: /var/loki/chunks
+      rules_directory: /var/loki/rules
     bucketNames:
       chunks: dummy
       ruler: dummy
       index: dummy
 
-  # REQUIRED for Loki chart 6.x
   schemaConfig:
     configs:
       - from: 2020-10-24
@@ -30,18 +30,15 @@ loki:
           prefix: loki_index_
           period: 24h
 
-# Disable simpleScalable (MUST set replicas = 0)
-backend:
-  enabled: false
-  replicas: 0
+  # Disable simpleScalable components (MUST be nested under loki:)
+  backend:
+    replicas: 0
 
-read:
-  enabled: false
-  replicas: 0
+  read:
+    replicas: 0
 
-write:
-  enabled: false
-  replicas: 0
+  write:
+    replicas: 0
 
 gateway:
   enabled: false
