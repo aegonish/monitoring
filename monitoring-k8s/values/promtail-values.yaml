@@ -1,34 +1,35 @@
-# monitoring-k8s/values/tempo-values.yaml
+# monitoring-k8s/values/promtail-values.yaml
+
 replicaCount: 1
 
-tempo:
-  service:
-    type: ClusterIP
-    ports:
-      - name: http
-        port: 3200
+config:
+  snippets:
+    pipelineStages:
+      - docker: {}
 
-  persistence:
-    enabled: true
-    storageClassName: gp2
-    size: 10Gi
+    extraScrapeConfigs: |
+      - job_name: system
+        static_configs:
+          - targets:
+              - localhost
+            labels:
+              job: varlogs
+              __path__: /var/log/*log
 
-  resources:
-    requests:
-      cpu: 200m
-      memory: 512Mi
-    limits:
-      cpu: 1000m
-      memory: 2Gi
+  clients:
+    - url: http://monitoring-loki.monitoring-loki.svc:3100/loki/api/v1/push
 
-ingester:
-  replicaCount: 1
+service:
+  type: ClusterIP
+  port: 3101
 
-compactor:
-  enabled: false
-
-distributor:
-  replicaCount: 1
-
-query_frontend:
+daemonset:
   enabled: true
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi

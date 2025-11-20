@@ -1,1 +1,36 @@
-<tempo values>
+# monitoring-k8s/values/tempo-values.yaml
+
+replicaCount: 1
+
+tempo:
+  server:
+    http_listen_port: 3200
+
+  storage:
+    trace:
+      backend: local
+      local:
+        path: /var/tempo/traces
+
+  metricsGenerator:
+    enabled: true
+
+persistence:
+  enabled: true
+  storageClassName: gp2
+  accessModes: ["ReadWriteOnce"]
+  size: 10Gi
+
+resources:
+  requests:
+    cpu: 200m
+    memory: 512Mi
+  limits:
+    cpu: 1000m
+    memory: 2Gi
+
+service:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 3200

@@ -10,7 +10,8 @@ spec:
     chart: kube-prometheus-stack
     targetRevision: 58.3.0
     helm:
-      valueFiles:\n        - monitoring-k8s/values/kps-values.yaml
+      valueFiles:
+        - ../../values/kps-values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring-kube-prometheus-stack
