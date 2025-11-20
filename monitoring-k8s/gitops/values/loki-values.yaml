@@ -1,20 +1,25 @@
-# Loki Helm chart minimal valid config
 loki:
   auth_enabled: false
 
-  config:
+  config: |
     server:
       http_listen_port: 3100
 
     common:
+      path_prefix: /var/loki
       ring:
         instance_addr: 127.0.0.1
+        kvstore:
+          store: memberlist
 
     ingester:
       lifecycler:
         ring:
           kvstore:
             store: memberlist
+      chunk_idle_period: 1h
+      chunk_block_size: 262144
+      chunk_retain_period: 30s
 
     memberlist:
       join_members:
@@ -22,7 +27,7 @@ loki:
 
     schema_config:
       configs:
-        - from: 2024-01-01
+        - from: "2024-01-01"
           store: boltdb-shipper
           object_store: filesystem
           schema: v13
@@ -31,12 +36,16 @@ loki:
             period: 24h
 
     storage_config:
+      boltdb_shipper:
+        active_index_directory: /var/loki/index
+        cache_location: /var/loki/index_cache
+        shared_store: filesystem
       filesystem:
-        chunks_directory: /var/loki/chunks
-        rules_directory: /var/loki/rules
+        directory: /var/loki/chunks
 
-  pattern_ingester:
-    enabled: false
+    limits_config:
+      ingestion_rate_mb: 10
+      ingestion_burst_size_mb: 20
 
 singleBinary:
   replicas: 1
