@@ -11,7 +11,7 @@ spec:
     targetRevision: 58.3.0
     helm:
       valueFiles:
-        - monitoring-k8s/gitops/values/kps-values.yaml
+        - values/kps-values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring-kube-prometheus-stack
