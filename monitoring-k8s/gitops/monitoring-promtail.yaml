@@ -11,7 +11,7 @@ spec:
     targetRevision: 6.15.2
     helm:
       valueFiles:
-        - values/promtail-values.yaml
+        - https://raw.githubusercontent.com/aegonish/monitoring/main/monitoring-k8s/gitops/values/promtail-values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring-promtail

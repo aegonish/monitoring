@@ -11,7 +11,7 @@ spec:
     targetRevision: 8.5.12
     helm:
       valueFiles:
-        - values/grafana-values.yaml
+        - https://raw.githubusercontent.com/aegonish/monitoring/main/monitoring-k8s/gitops/values/grafana-values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring-grafana
