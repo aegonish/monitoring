@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/aegonish/monitoring.git
     targetRevision: main
-    path: monitoring/monitoring-k8s/gitops
+    path: monitoring-k8s/gitops
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
