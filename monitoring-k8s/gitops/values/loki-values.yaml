@@ -7,6 +7,7 @@ singleBinary:
     storageClass: gp2
     size: 10Gi
 
+# All other config MUST be nested under loki:
 loki:
   auth_enabled: false
 
@@ -30,7 +31,7 @@ loki:
           prefix: loki_index_
           period: 24h
 
-  # Disable simpleScalable components (MUST be nested under loki:)
+  # Disable ALL simple-scalable components
   backend:
     replicas: 0
 
@@ -40,14 +41,14 @@ loki:
   write:
     replicas: 0
 
-gateway:
-  enabled: false
-
-monitoring:
-  selfMonitoring:
+  gateway:
     enabled: false
-    grafanaAgent:
-      installOperator: false
 
-test:
-  enabled: false
+  monitoring:
+    selfMonitoring:
+      enabled: false
+      grafanaAgent:
+        installOperator: false
+
+  test:
+    enabled: false
