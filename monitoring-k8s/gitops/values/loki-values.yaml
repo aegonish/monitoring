@@ -1,29 +1,34 @@
-# FORCE the chart to use simple single-binary mode
+# === FORCE SINGLE-BINARY DEPLOYMENT ===
 singleBinary:
   enabled: true
   replicas: 1
+  persistence:
+    enabled: true
+    storageClass: gp2
+    size: 10Gi
 
+# === REQUIRED FOR SIMPLE MODE ===
 loki:
-  enabled: true
   auth_enabled: false
 
-lokiStorage:
-  type: filesystem
-  filesystem:
-    chunks_directory: /var/loki/chunks
-    rules_directory: /var/loki/rules
-
-service:
-  type: ClusterIP
-  port: 3100
-
-# Disable all distributed components to avoid config merging
+# Disable distributed mode (MUST DO to avoid config merge errors)
 backend:
   enabled: false
+
 read:
   enabled: false
+
 write:
   enabled: false
 
 gateway:
+  enabled: false
+
+monitoring:
+  selfMonitoring:
+    enabled: false
+    grafanaAgent:
+      installOperator: false
+
+test:
   enabled: false
